@@ -1,8 +1,9 @@
 import { Server } from 'ssh2';
+import config from '../config/services';
 
 const sshServer = new Server({
   // Replace with your own key pair
-  hostKeys: [require('fs').readFileSync('./keys/ssh_private_key')]
+  hostKeys: [config.ssh.privateKey],
 }, (client) => {
   client.on('authentication', (ctx) => {
     // Implement your authentication logic here
@@ -24,6 +25,6 @@ const sshServer = new Server({
       });
     });
   });
-}).listen(2222, () => {
-  console.log('SSH server listening on port 2222');
+}).listen(config.ssh.port, () => {
+  console.log(`SSH server listening on port ${config.ssh.port}`);
 });

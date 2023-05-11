@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import config from '../config/services';
 
 const server = fastify({ logger: true });
 
@@ -8,9 +9,9 @@ server.get('/', async (request, reply) => {
 
 const start = async () => {
   try {
-    await server.listen(3000);
+    await server.listen(config.http.port);
     const address = server.server.address();
-    const port = typeof address === 'string' ? address : address?.port ?? 3000;
+    const port = typeof address === 'string' ? address : address?.port ?? config.http.port;
     server.log.info(`Server running at http://localhost:${port}`);
   } catch (error) {
     server.log.error(error);

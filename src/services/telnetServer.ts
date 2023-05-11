@@ -1,5 +1,6 @@
 import { TelnetSocket } from 'telnet-stream';
 import { createServer } from 'net';
+import config from '../config/services';
 
 const telnetServer = createServer((socket) => {
   const telnetSocket = new TelnetSocket(socket);
@@ -13,6 +14,6 @@ const telnetServer = createServer((socket) => {
   });
 });
 
-telnetServer.listen(2323, () => {
-  console.log('Telnet server listening on port 2323');
+telnetServer.listen(config.telnet.port, () => {
+  console.log(`Telnet server listening on port ${config.telnet.port}`);
 });
