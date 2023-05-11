@@ -1,9 +1,15 @@
 import { TelnetSocket } from 'telnet-stream';
 import { createServer } from 'net';
+import dns from 'dns/promises';
 import config from '../config/services';
 
-const telnetServer = createServer((socket) => {
+const telnetServer = createServer(async(socket) => {
   const telnetSocket = new TelnetSocket(socket);
+  const clientIp = socket.remoteAddress;
+  const clientHostname = clientIp ? await dns.reverse(clientIp).catch(() => clientIp) : 'unknown';
+  console.log(`Telnet connection from (${clientIp}) - ${clientHostname}`);
+
+  console.log(`Telnet connection from (${clientIp})`);
 
   telnetSocket.write('Welcome to the BBS!\r\n');
 
